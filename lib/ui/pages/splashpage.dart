@@ -2,22 +2,22 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashPage extends StatefulWidget {
 
   final Widget nextScreen;
   final int delayInSeconds;
 
-  const SplashScreen({
+  const SplashPage({
     Key key,
     @required this.nextScreen,
     @required this.delayInSeconds
   }):super(key: key);
 
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  _SplashPageState createState() => _SplashPageState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashPageState extends State<SplashPage> {
 
   @override
   void initState() {

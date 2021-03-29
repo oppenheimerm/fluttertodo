@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/pages/loginpage.dart';
+import 'package:todoapp/core/services/navigationManager.dart';
+import 'package:todoapp/locator.dart';
+import 'package:todoapp/ui/pages/loginpage.dart';
+import 'package:todoapp/ui/routing/routeNames.dart';
 
 class OnboardingPage extends StatefulWidget {
+  NavigationManager _navigationManager;
+
+  OnboardingPage(){
+    _navigationManager = locator<NavigationManager>();
+  }
+
   @override
   _OnboardingPageState createState() => _OnboardingPageState();
 }
@@ -59,7 +68,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     InkWell(
-                      onTap: (){},
+                      onTap: navigateToLogin,
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 100.0),
                         decoration: BoxDecoration(
@@ -162,13 +171,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   setCurrentPage(int value){
     _currentPage = value;
-    setState(() {
+    /*setState(() {
 
-    });
+    });*/
   }
 
-  goToLogIn(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+  navigateToLogin(){
+    widget._navigationManager.navigateTo(LoginViewRoute);
   }
 }
 
