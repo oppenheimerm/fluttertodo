@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/core/enums/form_types.dart';
+import 'package:todoapp/core/enums/apptypes.dart';
 import 'package:todoapp/core/services/DialogService.dart';
 import 'package:todoapp/core/services/authenticationManager.dart';
 import 'package:todoapp/core/services/navigationManager.dart';
+import 'package:todoapp/ui/helpers/dialogManager.dart';
 import 'package:todoapp/ui/helpers/formValidation.dart';
 import 'package:todoapp/ui/routing/routeNames.dart';
 
@@ -13,12 +14,15 @@ import '../../locator.dart';
 class LoginPage extends StatefulWidget {
 
   NavigationManager _navigationManager;
-  final DialogService _dialogService = locator<DialogService>();
+  DialogService _dialogService;
   AuthenticationManager _authenticationManager;
+  DialogManager _dialogManager;
 
   LoginPage(){
     _navigationManager = locator<NavigationManager>();
     _authenticationManager = locator<AuthenticationManager>();
+    _dialogManager = DialogManager();
+    _dialogService = locator<DialogService>();
   }
 
   @override
@@ -340,12 +344,20 @@ class _LoginPageState extends State<LoginPage> {
       if(result.success == true){
         widget._navigationManager.navigateTo(HomeViewRoute);
       }else{
-        await widget._dialogService.showDialog(
-          title: "Login Failed",
-          description: result.message
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Login failure"),
+            content: Text(result.message),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Dismiss'),
+                onPressed: (){ Navigator.of(context).pop(); },
+              )
+            ],
+          )
         );
       }
-
     }
   }
 

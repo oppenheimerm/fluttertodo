@@ -1,6 +1,6 @@
 class AccessToken {
   String token;
-  String expiresIn;
+  int expiresIn;
 
   AccessToken({this.token, this.expiresIn});
 
@@ -9,5 +9,8 @@ class AccessToken {
         token: json['token'],
         expiresIn: json['expiresIn']
     );
+  }
+  static AccessToken EmptyAccessToken(){
+    return new AccessToken(token: "", expiresIn: 0);
   }
 }

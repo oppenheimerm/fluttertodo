@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/core/models/response/baseResponse.dart';
+import 'package:todoapp/core/models/response/responseError.dart';
 
-class UserResponse {
-  String id;
+class UserResponse extends BaseResponse {
   String email;
   String firstname;
+  String id;
+  final bool success;
+  final List<ResponseError> errors;
+  final String message;
 
-  UserResponse({this.id, this.email, this.firstname});
+
+  UserResponse({
+    this.email,
+    this.firstname,
+    this.id,
+    this.success,
+    this.errors,
+    this.message}):super(success: success, errors: errors, message: message);
 
   factory UserResponse.fromJson(Map<String, dynamic>json){
     return UserResponse(
-        id: json['userID'],
-        firstname: json['firstName'],
-        email: json['email']
+      email: json['email'],
+      firstname: json['firstname'],
+      id: json['userId'],
     );
   }
 }

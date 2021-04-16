@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todoapp/core/models/appuser.dart';
-import 'package:todoapp/core/services/DialogService.dart';
+import 'package:todoapp/core/models/response/getUserResponse.dart';
 import 'package:todoapp/core/services/authenticationManager.dart';
 import 'package:todoapp/core/services/navigationManager.dart';
-import 'package:todoapp/ui/helpers/dialogManager.dart';
 import 'package:todoapp/ui/pages/basicLayout.dart';
 import 'package:todoapp/ui/pages/onboardpage.dart';
+import 'package:todoapp/ui/pages/rootpage.dart';
 import 'package:todoapp/ui/pages/splashpage.dart';
 import 'package:todoapp/ui/routing/router.dart';
 
+import 'core/models/response/userResponse.dart';
 import 'locator.dart';
 
 void main() {
@@ -20,40 +21,37 @@ void main() {
 
 class MyApp extends StatelessWidget {
 
-  // Set the next page to load after initial splash screen
-  //var nextPage = OnboardingLayout();
-  var nextPage = BasicLayout(page: OnboardingPage());
-
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<AppUser>(
-      initialData: AppUser.initial(),
-      //  The user can now be consumed anywhere in the app by using Provider.of<User>(context)
-      create: (context) => AuthenticationManager().userStreamController.stream,
-      child: MaterialApp(
-        builder: (context, child) => Navigator(
-          key: locator<DialogService>().dialogNavigationKey,
-          onGenerateRoute: (settings) => MaterialPageRoute(
-              builder: (context) => DialogManager(child: child),
-        ),
-      ),
+    return MaterialApp(
       navigatorKey: locator<NavigationManager>().navigationKey,
       debugShowCheckedModeBanner: false,
-      title: 'WheelznStuff',
-      home: SplashPage(nextScreen: nextPage, delayInSeconds: 3),
+      /*title: 'WheelznStuff',*/
+      home: MultiProvider(
+        // User multiProvider to make the code more readable and
+        //  avoid nestinag
+        providers: [
+          //FutureProvider<GetUserResponse>(create: (context) => AuthenticationManager().getUser())
+          FutureProvider<UserResponse>(create: (context) => AuthenticationManager().getUser()),
+          /*FutureProvider<GetUserResponse>(
+            create: (_) => AuthenticationManager().getUser()
+          )*/
+        ],
+        child: RootView(),
+      ),
       onGenerateRoute: generateRoute,
-      ),
     );
+    /*return StreamProvider<AppUser>(
+      initialData: AppUser.initial(),
+      //  The user can now be consumed anywhere in the app by using Provider.of<User>(context)
+      create: (context) => locator<AuthenticationManager>().userStreamController.stream,
+      child: MaterialApp(
+        navigatorKey: locator<NavigationManager>().navigationKey,
+        debugShowCheckedModeBanner: false,
+        /*title: 'WheelznStuff',*/
+        home: SplashPage(nextScreen: nextPage, delayInSeconds: 1),
+        onGenerateRoute: generateRoute,
+      ),
+    );*/
   }
-
-  /*@override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: 'avenir'
-      ),
-      home: SplashScreen(nextScreen: nextPage, delayInSeconds: 3),
-    );
-  }*/
 }

@@ -4,16 +4,18 @@ class AppUser{
   final String id;
   final String email;
   final String firstname;
-  final String accessToken;
-  final String refreshToken;
+  String accessToken;
+  String refreshToken;
+  bool authenticated = false;
 
 
-  const AppUser({
+  AppUser({
     @required this.id,
     @required this.email,
     @required this.firstname,
     @required this.accessToken,
     @required this.refreshToken,
+    @required this.authenticated
   });
 
   static AppUser initial(){
@@ -23,7 +25,8 @@ class AppUser{
         email: null,
         firstname: null,
         accessToken: null,
-        refreshToken: null
+        refreshToken: null,
+        authenticated: false
       );
 
     return initialUser;
