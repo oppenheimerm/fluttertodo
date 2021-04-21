@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
 
-  final Widget nextScreen;
-  final int delayInSeconds;
+  final Widget? nextScreen;
+  final int? delayInSeconds;
 
   const SplashPage({
-    Key key,
+    Key? key,
     @required this.nextScreen,
     @required this.delayInSeconds
   }):super(key: key);
@@ -33,7 +33,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   startTimer() async {
-    var duration = new Duration(seconds: widget.delayInSeconds);
+    var duration = new Duration(seconds: widget.delayInSeconds!);
     return new Timer(duration, route);
   }
 
@@ -41,7 +41,7 @@ class _SplashPageState extends State<SplashPage> {
   route() {
     Navigator.pushReplacement(
         context, MaterialPageRoute(
-      builder: (context) => widget.nextScreen
+      builder: (context) => widget.nextScreen!
           )
         );
   }

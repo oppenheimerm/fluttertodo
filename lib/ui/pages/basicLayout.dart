@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class BasicLayout extends StatelessWidget {
 
-  final Widget page;
+  final Widget? page;
 
-  BasicLayout({Key key, @required this.page });
+  BasicLayout({Key? key, @required this.page });
 
   @override
   Widget build(BuildContext context) {

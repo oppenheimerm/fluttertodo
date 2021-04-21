@@ -16,20 +16,20 @@ import 'package:todoapp/core/services/securestore.dart';
 class AuthenticationManager implements IAuthenticationService{
 
   static const endpoint = 'todoflutterwebapi.azurewebsites.net';
-  StreamController<AppUser> userStreamController;
-  SecureStore _secureStore;
+  StreamController<AppUser>? userStreamController;
+  SecureStore? _secureStore;
 
   AuthenticationManager(){
     userStreamController = StreamController<AppUser>();
-    _secureStore = SecureStore();
+    _secureStore = new SecureStore();
   }
 
 
   //  The http.Response class contains the data received from a successful http call.
   Future<RegisterResponse> register({
-    @required String email,
-    @required String password,
-    @required String firstname
+    @required String? email,
+    @required String? password,
+    @required String? firstname
   }) async
   {
     final response = await http.post(
@@ -37,7 +37,7 @@ class AuthenticationManager implements IAuthenticationService{
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
+      body: jsonEncode(<String?, String?>{
         "email":email,
         "password":password,
         "firstname": firstname
@@ -66,8 +66,8 @@ class AuthenticationManager implements IAuthenticationService{
   }
 
   Future<LoginResponse> login({
-    @required String email,
-    @required String password
+    @required String? email,
+    @required String? password
   }) async
   {
 
@@ -76,7 +76,7 @@ class AuthenticationManager implements IAuthenticationService{
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
+      body: jsonEncode(<String?, String?>{
         "email":email,
         "password":password
       }),
@@ -88,19 +88,19 @@ class AuthenticationManager implements IAuthenticationService{
           id: loginResponse.userId,
           email: email,
           firstname: loginResponse.firstname,
-          accessToken: loginResponse.accessToken.token, 
+          accessToken: loginResponse.accessToken!.token,
           refreshToken: loginResponse.refreshToken,
           authenticated: true
       );
 
-      await _secureStore.setLoginStorageValues(
-          loginResponse.accessToken.token,
-          loginResponse.refreshToken,
-          email,
-          user.id,
-          user.firstname
+      await _secureStore!.setLoginStorageValues(
+          loginResponse.accessToken!.token!,
+          loginResponse.refreshToken!,
+          email!,
+          user.id!,
+          user.firstname!
       );
-      userStreamController.add(user);
+      userStreamController!.add(user);
 
       return LoginResponse.fromJson(jsonDecode(response.body));
     }else if(response.statusCode == 400){
@@ -126,7 +126,7 @@ class AuthenticationManager implements IAuthenticationService{
         accessToken: null,
         refreshToken: '',
         success: false,
-        message: response.statusCode.toString() + "" + response.reasonPhrase
+        message: response.statusCode.toString() + "" + response.reasonPhrase!
       );
       //  The above will include status and any other errors encountered
     }
@@ -134,7 +134,7 @@ class AuthenticationManager implements IAuthenticationService{
 
 
   Future<RefreshTokenResponse> refreshToken({
-    @required String refreshToken
+    @required String? refreshToken
   }) async
   {
 
@@ -143,7 +143,7 @@ class AuthenticationManager implements IAuthenticationService{
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
+      body: jsonEncode(<String?, String?>{
         "refreshtoken":refreshToken
       }),
     );
@@ -175,9 +175,9 @@ class AuthenticationManager implements IAuthenticationService{
   /// of [TokenType.accessToken] and [TokenType.refreshToken].
   Future<UserResponse> getUser() async
   {
-    var accessToken = await _secureStore.getValue(StorageType.storageAccessToken.toString());
-    var userId = await _secureStore.getValue(StorageType.storageUserId.toString());
-    var refreshToken = await _secureStore.getValue(StorageType.storageRefreshToken.toString());
+    var accessToken = await _secureStore!.getValue(StorageType.storageAccessToken.toString());
+    var userId = await _secureStore!.getValue(StorageType.storageUserId.toString());
+    var refreshToken = await _secureStore!.getValue(StorageType.storageRefreshToken.toString());
 
     //  null storage values?
     if(accessToken == null || userId == null || refreshToken == null){
@@ -224,16 +224,16 @@ class AuthenticationManager implements IAuthenticationService{
       //  try refresh token
       var refreshRequestResponse = await this.refreshToken(refreshToken: refreshToken);
 
-      if(refreshRequestResponse.success)
+      if(refreshRequestResponse.success!)
         {
           //  updateTokens
-          await _secureStore.updateTokens(
-              refreshRequestResponse.accessToken.token,
-              refreshRequestResponse.refreshToken
+          await _secureStore!.updateTokens(
+              refreshRequestResponse.accessToken!.token!,
+              refreshRequestResponse.refreshToken!
           );
-          var id = await _secureStore.getValue(StorageType.storageUserId.toString());
-          var firstName = await _secureStore.getValue(StorageType.storageFirstname.toString());
-          var email = await _secureStore.getValue(StorageType.storageEmail.toString());
+          var id = await _secureStore!.getValue(StorageType.storageUserId.toString());
+          var firstName = await _secureStore!.getValue(StorageType.storageFirstname.toString());
+          var email = await _secureStore!.getValue(StorageType.storageEmail.toString());
 
           return new UserResponse(
               email: email,

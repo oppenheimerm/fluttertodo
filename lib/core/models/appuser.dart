@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/core/models/response/userResponse.dart';
 
 class AppUser{
-  final String id;
-  final String email;
-  final String firstname;
-  String accessToken;
-  String refreshToken;
-  bool authenticated = false;
+  final String? id;
+  final String? email;
+  final String? firstname;
+  String? accessToken;
+  String? refreshToken;
+  bool? authenticated = false;
 
 
   AppUser({
@@ -30,6 +31,18 @@ class AppUser{
       );
 
     return initialUser;
+  }
+
+  static UserResponse initialDataUserResponse()
+  {
+    return UserResponse(
+      email: "",
+      firstname: "",
+      id: "",
+      success: false,
+      errors: null,
+      message: "User not authenticated"
+    );
   }
 
   @override

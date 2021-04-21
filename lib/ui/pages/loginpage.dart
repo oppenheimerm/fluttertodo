@@ -13,10 +13,10 @@ import '../../locator.dart';
 
 class LoginPage extends StatefulWidget {
 
-  NavigationManager _navigationManager;
-  DialogService _dialogService;
-  AuthenticationManager _authenticationManager;
-  DialogManager _dialogManager;
+  NavigationManager? _navigationManager;
+  DialogService? _dialogService;
+  AuthenticationManager? _authenticationManager;
+  DialogManager? _dialogManager;
 
   LoginPage(){
     _navigationManager = locator<NavigationManager>();
@@ -55,14 +55,14 @@ class _LoginPageState extends State<LoginPage> {
   void viewRegister(GlobalKey<FormState> formKey) {
     setState(() {
       _formType = FormType.register;
-      formKey.currentState.reset();
+      formKey.currentState!.reset();
     });
   }
 
   void viewLogin(GlobalKey<FormState> formKey){
     setState(() {
       _formType = FormType.login;
-      formKey.currentState.reset();
+      formKey.currentState!.reset();
     });
   }
 
@@ -321,8 +321,8 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  bool validateAndSave({GlobalKey<FormState> formKey}) {
-    final FormState form = formKey.currentState;
+  bool validateAndSave({GlobalKey<FormState>? formKey}) {
+    final FormState form = formKey!.currentState!;
     if (form.validate()) {
       form.save();
       return true;
@@ -331,24 +331,24 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> validateAndSubmitLogin({
-    @required String email,
-    @required String password,
-    @required FormType formType,
-    @required GlobalKey<FormState> formKey
+    @required String? email,
+    @required String? password,
+    @required FormType? formType,
+    @required GlobalKey<FormState>? formKey
   }) async {
     if (validateAndSave(formKey: formKey)) {
 
-      var result = await widget._authenticationManager.login(
+      var result = await widget._authenticationManager!.login(
           email: email, password: password);
 
       if(result.success == true){
-        widget._navigationManager.navigateTo(HomeViewRoute);
+        widget._navigationManager!.navigateTo(HomeViewRoute);
       }else{
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
             title: Text("Login failure"),
-            content: Text(result.message),
+            content: Text(result.message!),
             actions: <Widget>[
               TextButton(
                 child: Text('Dismiss'),
@@ -362,21 +362,21 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> validateAndSubmitSignUp({
-    @required String email,
-    @required String password,
-    @required String firstname,
-    @required FormType formType,
-    @required GlobalKey<FormState> formKey
+    @required String? email,
+    @required String? password,
+    @required String? firstname,
+    @required FormType? formType,
+    @required GlobalKey<FormState>? formKey
   }) async {
-    if (validateAndSave(formKey: formKey)) {
+    if (validateAndSave(formKey: formKey!)) {
 
-      var result = await widget._authenticationManager.register(
+      var result = await widget._authenticationManager!.register(
           email: email, password: password, firstname: firstname);
 
       if(result.success == true){
-        widget._navigationManager.navigateTo(HomeViewRoute);
+        widget._navigationManager!.navigateTo(HomeViewRoute);
       }else{
-        await widget._dialogService.showDialog(
+        await widget._dialogService!.showDialog(
             title: "Registration Failed",
             description: result.message
         );

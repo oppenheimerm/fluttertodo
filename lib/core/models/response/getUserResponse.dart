@@ -4,10 +4,10 @@ import 'package:todoapp/core/models/response/responseError.dart';
 import 'package:todoapp/core/models/response/userResponse.dart';
 
 class GetUserResponse extends BaseResponse{
-  final UserResponse userResponse;
-  final bool success;
-  final List<ResponseError> errors;
-  final String message;
+  final UserResponse? userResponse;
+  final bool? success;
+  final List<ResponseError>? errors;
+  final String? message;
 
   GetUserResponse({
     this.userResponse,
