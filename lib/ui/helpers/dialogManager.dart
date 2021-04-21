@@ -3,8 +3,8 @@ import 'package:todoapp/core/models/dialog/dialogRequest.dart';
 import 'package:todoapp/core/services/DialogService.dart';
 
 class DialogManager extends StatefulWidget {
-  final Widget child;
-  DialogManager({Key key, this.child}) : super(key: key);
+  final Widget? child;
+  DialogManager({Key? key, this.child}) : super(key: key);
 
   _DialogManagerState createState() => _DialogManagerState();
 }
@@ -20,7 +20,7 @@ class _DialogManagerState extends State<DialogManager> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.child;
+    return widget.child!;
   }
 
   void _showDialog(DialogRequest request) {
@@ -28,19 +28,19 @@ class _DialogManagerState extends State<DialogManager> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text(request.title),
-          content: Text(request.description),
+          title: Text(request.title!),
+          content: Text(request.description!),
           actions: <Widget>[
             if (isConfirmationDialog)
               TextButton(
-                child: Text(request.cancelTitle),
+                child: Text(request.cancelTitle!),
                 onPressed: () {
                   _dialogService
                       .dialogComplete(DialogResponse(confirmed: false));
                 },
               ),
             TextButton(
-              child: Text(request.buttonTitle),
+              child: Text(request.buttonTitle!),
               onPressed: () {
                 _dialogService
                     .dialogComplete(DialogResponse(confirmed: true));

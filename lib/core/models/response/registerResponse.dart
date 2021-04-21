@@ -4,10 +4,10 @@ import 'package:todoapp/core/models/response/baseResponse.dart';
 import 'package:todoapp/core/models/response/responseError.dart';
 
 class RegisterResponse extends BaseResponse {
-  final String id;
-  final bool success;
-  final List<ResponseError> errors;
-  final String message;
+  final String? id;
+  final bool? success;
+  final List<ResponseError>? errors;
+  final String? message;
 
   RegisterResponse({this.id, this.success, this.errors, this.message}) :super(success: success, errors: errors, message: message);
 

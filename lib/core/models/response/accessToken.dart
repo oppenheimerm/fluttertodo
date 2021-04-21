@@ -1,6 +1,6 @@
 class AccessToken {
-  String token;
-  int expiresIn;
+  String? token;
+  int? expiresIn;
 
   AccessToken({this.token, this.expiresIn});
 

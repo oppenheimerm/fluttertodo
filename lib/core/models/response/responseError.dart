@@ -1,6 +1,6 @@
 class ResponseError {
-  final String code;
-  final String description;
+  final String? code;
+  final String? description;
 
   ResponseError({this.code, this.description});
 

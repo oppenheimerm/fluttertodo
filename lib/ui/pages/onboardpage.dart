@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/core/services/navigationManager.dart';
 import 'package:todoapp/locator.dart';
-import 'package:todoapp/ui/pages/loginpage.dart';
 import 'package:todoapp/ui/routing/routeNames.dart';
 
 class OnboardingPage extends StatefulWidget {
-  NavigationManager _navigationManager;
+  NavigationManager? _navigationManager;
 
   OnboardingPage(){
     _navigationManager = locator<NavigationManager>();
@@ -177,7 +176,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   }
 
   navigateToLogin(){
-    widget._navigationManager.navigateTo(LoginViewRoute);
+    widget._navigationManager!.navigateTo(LoginViewRoute);
   }
 }
 

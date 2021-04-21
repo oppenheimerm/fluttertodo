@@ -5,8 +5,8 @@ import 'package:todoapp/core/models/dialog/dialogRequest.dart';
 
 class DialogService {
   GlobalKey<NavigatorState> _dialogNavigationKey = GlobalKey<NavigatorState>();
-  Function(DialogRequest) _showDialogListener;
-  Completer<DialogResponse> _dialogCompleter;
+  Function(DialogRequest)? _showDialogListener;
+  Completer<DialogResponse>? _dialogCompleter;
 
 
   GlobalKey<NavigatorState> get dialogNavigationKey => _dialogNavigationKey;
@@ -18,38 +18,38 @@ class DialogService {
 
   /// Calls the dialog listener and returns a Future that will wait for dialogComplete.
   Future<DialogResponse> showDialog({
-    String title,
-    String description,
+    String? title,
+    String? description,
     String buttonTitle = 'Ok'
   }) {
     _dialogCompleter = Completer<DialogResponse>();
-    _showDialogListener(DialogRequest(
+    _showDialogListener!(DialogRequest(
       title: title,
       description: description,
       buttonTitle: buttonTitle,
     ));
-    return _dialogCompleter.future;
+    return _dialogCompleter!.future;
   }
 
   /// Shows a confirmation dialog
   Future<DialogResponse> showConfirmationDialog(
-      {String title,
-        String description,
-        String confirmationTitle = 'Ok',
-        String cancelTitle = 'Cancel'}) {
+      {String? title,
+        String? description,
+        String? confirmationTitle = 'Ok',
+        String? cancelTitle = 'Cancel'}) {
     _dialogCompleter = Completer<DialogResponse>();
-    _showDialogListener(DialogRequest(
+    _showDialogListener!(DialogRequest(
         title: title,
         description: description,
         buttonTitle: confirmationTitle,
         cancelTitle: cancelTitle));
-    return _dialogCompleter.future;
+    return _dialogCompleter!.future;
   }
 
   /// Completes the _dialogCompleter to resume the Future's execution call
   void dialogComplete(DialogResponse response) {
-    _dialogNavigationKey.currentState.pop();
-    _dialogCompleter.complete(response);
+    _dialogNavigationKey.currentState!.pop();
+    _dialogCompleter!.complete(response);
     _dialogCompleter = null;
   }
 }

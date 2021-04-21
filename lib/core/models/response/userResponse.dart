@@ -3,12 +3,12 @@ import 'package:todoapp/core/models/response/baseResponse.dart';
 import 'package:todoapp/core/models/response/responseError.dart';
 
 class UserResponse extends BaseResponse {
-  String email;
-  String firstname;
-  String id;
-  final bool success;
-  final List<ResponseError> errors;
-  final String message;
+  String? email;
+  String? firstname;
+  String? id;
+  final bool? success;
+  final List<ResponseError>? errors;
+  String? message;
 
 
   UserResponse({

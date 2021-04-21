@@ -4,14 +4,14 @@ import 'package:todoapp/core/models/response/baseResponse.dart';
 import 'package:todoapp/core/models/response/responseError.dart';
 
 class LoginResponse extends BaseResponse {
-  final String userId;
-  final String email;
-  final String firstname;
-  final AccessToken accessToken;
-  final String refreshToken;
-  final bool success;
-  final List<ResponseError> errors;
-  final String message;
+  final String? userId;
+  final String? email;
+  final String? firstname;
+  final AccessToken? accessToken;
+  final String? refreshToken;
+  final bool? success;
+  final List<ResponseError>? errors;
+  final String? message;
 
   LoginResponse({
     this.userId,
@@ -24,8 +24,9 @@ class LoginResponse extends BaseResponse {
     this.message}):super(success: success, errors: errors, message: message);
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
-    var errorsList = json['errors'] as List;
-    var respErrors = errorsList != null ? errorsList.map((e) => ResponseError.fromJson(e)) : null;
+    var errorsList = json['errors'] as List?;
+    /*var respErrors = errorsList != null ? errorsList.map((e) => ResponseError.fromJson(e)) : null;*/
+    var respErrors = errorsList?.map((e) => ResponseError.fromJson(e));
 
     return LoginResponse(
       userId: json['userId'],
@@ -34,7 +35,7 @@ class LoginResponse extends BaseResponse {
       accessToken:AccessToken.fromJson(json['accessToken']),
       refreshToken:json['refreshToken'],
       success: json['success'],
-      errors: respErrors,
+      errors: respErrors?.toList(),
       message: json['message']
     );
   }

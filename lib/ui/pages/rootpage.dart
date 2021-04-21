@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todoapp/core/models/appuser.dart';
-import 'package:todoapp/core/models/response/getUserResponse.dart';
 import 'package:todoapp/core/models/response/userResponse.dart';
 import 'package:todoapp/ui/pages/basicLayout.dart';
 import 'package:todoapp/ui/pages/homepage.dart';
@@ -20,20 +18,17 @@ class _RootViewState extends State<RootView> {
 
   @override
   Widget build(BuildContext context) {
-    var user = Provider.of<UserResponse>(context);
+    var user = Provider.of<UserResponse>(context, listen: true);
 
     //  the var user is a future, so we need to wait for
     // it to complete, in the meantime show a loader
-    if(user == null){
+    if(user.success == false){
       //  loading app
       return Scaffold(
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              /*Container(
-                child: Image.asset("assets/images/aking.png"),
-              ),*/
               Padding(padding: EdgeInsets.only(top: 20.0)),
               Text(
                 "Loading app",
@@ -52,10 +47,10 @@ class _RootViewState extends State<RootView> {
         ),
       );
     }else{
-      if(user.success){
+      if(user.success == true){
         return BasicLayout(page: HomePage());
       }
-      return SplashPage(nextScreen: nextPage, delayInSeconds: 1);
+      return SplashPage(nextScreen: nextPage, delayInSeconds: 2);
     }
 
 
